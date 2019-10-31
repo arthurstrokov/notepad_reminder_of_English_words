@@ -35,8 +35,7 @@ def get_a_word_translation_from_abbyy_api(key: str):
             else:
                 return None
     else:
-        print('Error!' + str(auth.status_code))
-    return value
+        print('Error!' + str(auth.status_code))    
 
 
 def get_duplicates(check_these, check_here) -> list:
@@ -61,30 +60,28 @@ def get_translation_with_concurrent_futures(word_translation_from_api, not_trans
 
 
 if __name__ == "__main__":
-    # google_10k_english_keys = load_data_from_json(
-    #     'data/google_10k_english.json')
-    # google_10k_english_russian_keys = load_data_from_json(
-    #     'data/google_10k_english_russian.json')
+    google_10k_english_keys = load_data_from_json(
+        'data/google_10k_english.json')
+    google_10k_english_russian_keys = load_data_from_json(
+        'data/google_10k_english_russian.json')
 
-    # not_translated_words = get_duplicates(
-    #     google_10k_english_keys, google_10k_english_russian_keys)
-    # print(str(len(not_translated_words)) + ' words not translated yet')
+    not_translated_words = get_duplicates(
+        google_10k_english_keys, google_10k_english_russian_keys)
+    print(str(len(not_translated_words)) + ' words not translated yet')
 
 
-    not_translated_words = ['heaven', 'sun']
-    # translated_words = {}
-    translated_words: Dict[str, str] = {}
+    # not_translated_words = ['heaven', 'sun']
+    # translated_words: Dict[str, str] = {}
+    # get_translation_with_concurrent_futures(get_a_word_translation_from_abbyy_api, not_translated_words, translated_words, 'translated_words_json_file_name.json')
 
-    get_translation_with_concurrent_futures(get_a_word_translation_from_abbyy_api, not_translated_words, translated_words, 'translated_words_json_file_name.json')
-
-    # with concurrent.futures.ProcessPoolExecutor() as executor:
-    #     for en, ru in zip(not_translated_words, executor.map(get_a_word_translation_from_abbyy_api, not_translated_words)):
-    #         print(en, ru)
-    #         if ru == 'Incoming request rate exceeded for 50000 chars per day pricing tier':
-    #             break
-    #         google_10k_english_russian_keys[en] = ru
-    #         save_data_to_json('data/google_10k_english_russian.json',
-    #                           google_10k_english_russian_keys)
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        for en, ru in zip(not_translated_words, executor.map(get_a_word_translation_from_abbyy_api, not_translated_words)):
+            print(en, ru)
+            if ru == 'Incoming request rate exceeded for 50000 chars per day pricing tier':
+                break
+            google_10k_english_russian_keys[en] = ru
+            save_data_to_json('data/google_10k_english_russian.json',
+                              google_10k_english_russian_keys)
     # https://docs.python.org/3/library/concurrent.futures.html#module-concurrent.futures
 
     # not_translated_words_test = ['victim']
