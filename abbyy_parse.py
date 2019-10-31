@@ -2,6 +2,7 @@ import requests
 import json
 from service import load_data_from_json, save_data_to_json
 import concurrent.futures
+from typing import Dict
 
 # https://developers.lingvolive.com/ru-ru
 URL_AUTH = 'https://developers.lingvolive.com/api/v1.1/authenticate'
@@ -9,7 +10,7 @@ URL_TRANSLATE = 'https://developers.lingvolive.com/api/v1/Minicard'
 KEY = 'MjYyZTFiNzktYTJkYS00MmRlLWJiOTMtNjc2NDJiY2I2ZDc4OjJjOTUwM2FhNGQxNjQ5MjI5NWJjMmI3MzM4OTg1OTcw'
 
 
-def get_a_word_translation_from_abbyy_api(key: str) -> str:
+def get_a_word_translation_from_abbyy_api(key: str):
     headers_auth = {'Authorization': 'Basic ' + KEY}
     auth = requests.post(URL_AUTH, headers=headers_auth)
     if auth.status_code == 200:
@@ -17,10 +18,10 @@ def get_a_word_translation_from_abbyy_api(key: str) -> str:
         headers_translate = {
             'Authorization': 'Bearer ' + token
         }
-        params = {
+        params: Dict[str, str] = {
             'text': key,
-            'srcLang': 1033,
-            'dstLang': 1049
+            'srcLang': '1033',
+            'dstLang': '1049'
         }
         req = requests.get(
             URL_TRANSLATE, headers=headers_translate, params=params)
@@ -35,6 +36,7 @@ def get_a_word_translation_from_abbyy_api(key: str) -> str:
                 return None
     else:
         print('Error!' + str(auth.status_code))
+    return value
 
 
 def get_duplicates(check_these, check_here) -> list:
@@ -45,9 +47,9 @@ def get_duplicates(check_these, check_here) -> list:
         else:
             not_translated_words.append(key)
     return not_translated_words
-    
 
-def get_translation_with_concurrent_futures(word_translation_from_api, not_translated_words: list, translated_words: dict, translated_words_json_file_name: json):
+
+def get_translation_with_concurrent_futures(word_translation_from_api, not_translated_words: list, translated_words: dict, translated_words_json_file_name) -> dict:
     with concurrent.futures.ProcessPoolExecutor() as executor:
         for en, ru in zip(not_translated_words, executor.map(word_translation_from_api, not_translated_words)):
             print(en, ru)
@@ -55,6 +57,7 @@ def get_translation_with_concurrent_futures(word_translation_from_api, not_trans
                 break
             translated_words[en] = ru
             save_data_to_json(translated_words_json_file_name, translated_words)
+    return translated_words
 
 
 if __name__ == "__main__":
@@ -69,7 +72,8 @@ if __name__ == "__main__":
 
 
     not_translated_words = ['heaven', 'sun']
-    translated_words = {}
+    # translated_words = {}
+    translated_words: Dict[str, str] = {}
 
     get_translation_with_concurrent_futures(get_a_word_translation_from_abbyy_api, not_translated_words, translated_words, 'translated_words_json_file_name.json')
 
