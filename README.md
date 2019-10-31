@@ -1,2 +1,1 @@
-# notepad_reminder_of_English_words
-Simple reminder of English words
+Simple notepad to write for remember some english word
