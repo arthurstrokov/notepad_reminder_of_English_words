@@ -7,7 +7,7 @@ from typing import Dict
 # https://developers.lingvolive.com/ru-ru
 URL_AUTH = 'https://developers.lingvolive.com/api/v1.1/authenticate'
 URL_TRANSLATE = 'https://developers.lingvolive.com/api/v1/Minicard'
-KEY = 'MjYyZTFiNzktYTJkYS00MmRlLWJiOTMtNjc2NDJiY2I2ZDc4OjJjOTUwM2FhNGQxNjQ5MjI5NWJjMmI3MzM4OTg1OTcw'
+KEY = 'YjlkMjk0YTgtZGI3NS00NGE0LWJlNDUtYjkzMDU5Mzc5YTNkOjE2ODE3ZGM4OTI3OTQ4YWE5ZTBlYmJmYTZmMmY5YjZh'
 
 
 def get_a_word_translation_from_abbyy_api(key: str):
