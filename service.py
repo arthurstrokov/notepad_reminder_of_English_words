@@ -20,7 +20,7 @@ def load_data_from_json(json_file_name):
 def save_data_to_json(json_file_name, data):
     with open(json_file_name, 'w', encoding='utf-8') as file:
         json.dump(data, file, ensure_ascii=False, indent=4,
-                  sort_keys=False)
+                  sort_keys=True)
 
 
 # Understand what lies within. Понять, что находится внутри.
