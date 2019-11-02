@@ -3,6 +3,8 @@ import json
 from service import load_data_from_json, save_data_to_json
 import concurrent.futures
 from typing import Dict
+import time
+
 
 # https://developers.lingvolive.com/ru-ru
 URL_AUTH = 'https://developers.lingvolive.com/api/v1.1/authenticate'
@@ -59,15 +61,32 @@ def get_translation_with_concurrent_futures(word_translation_from_api, not_trans
             save_data_to_json(translated_words_json_file_name, translated_words)
     return translated_words
 
+def get_translation_with_concurrent(word_translation_from_api, not_translated_words: list) -> dict:
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        for en, ru in zip(not_translated_words, executor.map(word_translation_from_api, not_translated_words)):
+            print(en, ru)
+            if ru == 'Incoming request rate exceeded for 50000 chars per day pricing tier':
+                break    
+
 
 if __name__ == "__main__":
-    google_10k_english_keys: Dict[str, str] = load_data_from_json('data/google_10k_english.json')
-    google_10k_english_russian_keys: Dict[str, str] = load_data_from_json('data/google_10k_english_russian.json')
 
-    not_translated_words = get_duplicates(google_10k_english_keys, google_10k_english_russian_keys)
-    print(str(len(not_translated_words)) + ' words not translated yet')
+    start_time = time.time()
 
-    get_translation_with_concurrent_futures(get_a_word_translation_from_abbyy_api, not_translated_words, google_10k_english_russian_keys, 'data/google_10k_english_russian.json')
+    not_translated_words = load_data_from_json('data/not_translated_words.json')
+    get_translation_with_concurrent(get_a_word_translation_from_abbyy_api, not_translated_words)
+
+    end_time = time.time()
+    print(end_time - start_time)
+
+
+    # google_10k_english_keys: Dict[str, str] = load_data_from_json('data/google_10k_english.json')
+    # google_10k_english_russian_keys: Dict[str, str] = load_data_from_json('data/google_10k_english_russian.json')
+
+    # not_translated_words = get_duplicates(google_10k_english_keys, google_10k_english_russian_keys)
+    # print(str(len(not_translated_words)) + ' words not translated yet')
+
+    # get_translation_with_concurrent_futures(get_a_word_translation_from_abbyy_api, not_translated_words, google_10k_english_russian_keys, 'data/google_10k_english_russian.json')
 
     # with concurrent.futures.ProcessPoolExecutor() as executor:
     #     for en, ru in zip(not_translated_words, executor.map(get_a_word_translation_from_abbyy_api, not_translated_words)):
