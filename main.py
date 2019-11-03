@@ -1,3 +1,4 @@
+import PyQt5
 from PyQt5 import QtWidgets
 from mydesign import Ui_MainWindow
 from service import show_random_word_from_file_json

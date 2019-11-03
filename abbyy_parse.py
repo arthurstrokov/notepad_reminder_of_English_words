@@ -37,7 +37,7 @@ def get_a_word_translation_from_abbyy_api(key: str) -> str:
             else:
                 return None
     else:
-        print('Error!' + str(auth.status_code))    
+        print('Error!' + str(auth.status_code))
     return res
 
 
@@ -58,27 +58,30 @@ def get_translation_with_concurrent_futures(word_translation_from_api, not_trans
             if ru == 'Incoming request rate exceeded for 50000 chars per day pricing tier':
                 break
             translated_words[en] = ru
-            save_data_to_json(translated_words_json_file_name, translated_words)
+            save_data_to_json(
+                translated_words_json_file_name, translated_words)
     return translated_words
+
 
 def get_translation_with_concurrent(word_translation_from_api, not_translated_words: list) -> dict:
     with concurrent.futures.ProcessPoolExecutor() as executor:
         for en, ru in zip(not_translated_words, executor.map(word_translation_from_api, not_translated_words)):
             print(en, ru)
             if ru == 'Incoming request rate exceeded for 50000 chars per day pricing tier':
-                break    
+                break
 
 
 if __name__ == "__main__":
 
     start_time = time.time()
 
-    not_translated_words = load_data_from_json('data/not_translated_words.json')
-    get_translation_with_concurrent(get_a_word_translation_from_abbyy_api, not_translated_words)
+    not_translated_words = load_data_from_json(
+        'data/not_translated_words.json')
+    get_translation_with_concurrent(
+        get_a_word_translation_from_abbyy_api, not_translated_words)
 
     end_time = time.time()
     print(end_time - start_time)
-
 
     # google_10k_english_keys: Dict[str, str] = load_data_from_json('data/google_10k_english.json')
     # google_10k_english_russian_keys: Dict[str, str] = load_data_from_json('data/google_10k_english_russian.json')
