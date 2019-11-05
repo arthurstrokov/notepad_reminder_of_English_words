@@ -1,7 +1,7 @@
 import PyQt5
 from PyQt5 import QtWidgets
-from mydesign import Ui_MainWindow
-from service import show_random_word_from_file_json
+from ui.mydesign import Ui_MainWindow
+from service.file_handling import show_random_word_from_file_json
 import sys
 
 

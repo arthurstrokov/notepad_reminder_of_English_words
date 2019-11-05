@@ -1,1 +1,3 @@
-Simple notepad to write for remember some english word
+# Simple notepad to remember some english word
+
+Also using abbyy translate api for translate english words
