@@ -101,10 +101,18 @@ if __name__ == "__main__":
     # not_translated_words = get_duplicates(google_10k_english_keys, google_10k_english_russian_keys)
     # print(str(len(not_translated_words)) + ' words not translated yet')
 
-    # get_translation_with_concurrent_futures(get_a_word_translation_from_abbyy_api, not_translated_words, google_10k_english_russian_keys, 'data/google_10k_english_russian.json')
+    # get_translation_with_concurrent_futures(
+    #     get_a_word_translation_from_abbyy_api, 
+    #     not_translated_words, 
+    #     google_10k_english_russian_keys, 
+    #     'data/google_10k_english_russian.json')
 
     # with concurrent.futures.ProcessPoolExecutor() as executor:
-    #     for en, ru in zip(not_translated_words, executor.map(get_a_word_translation_from_abbyy_api, not_translated_words)):
+    #     for en, ru in zip(
+    #             not_translated_words, 
+    #             executor.map(
+    #                 get_a_word_translation_from_abbyy_api, 
+    #                 not_translated_words)):
     #         print(en, ru)
     #         if ru == 'Incoming request rate exceeded for 50000 chars per day pricing tier':
     #             break
