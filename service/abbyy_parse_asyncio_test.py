@@ -4,7 +4,7 @@ from typing import Dict
 import asyncio
 import aiohttp
 import time
-from file_handling import load_data_from_json
+from service.file_handling import load_data_from_json
 
 
 URL_AUTH = 'https://developers.lingvolive.com/api/v1.1/authenticate'
