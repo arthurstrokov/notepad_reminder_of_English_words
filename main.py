@@ -2,8 +2,8 @@ import sys
 import PyQt5
 from PyQt5 import QtWidgets
 from ui.mydesign import Ui_MainWindow
-from service.abbyy_parse import *
-from service.file_handling import *
+from service.abbyy_parse import get_duplicate
+from service.file_handling import load_data_from_json, save_data_to_json, show_random_word_from_file_json
 
 
 class MyWindow(QtWidgets.QMainWindow):
