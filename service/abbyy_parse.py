@@ -60,7 +60,10 @@ def get_duplicate(check_word, check_here):
         return translated
     else:
         translated_word = get_a_word_translation_from_abbyy_api(check_word)
-        check_here[check_word] = translated_word
+        if translated_word == None:
+            check_here[check_word] = "None"
+        else:
+            check_here[check_word] = translated_word
     return translated_word
 
 
