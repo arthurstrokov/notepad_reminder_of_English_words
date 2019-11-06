@@ -2,7 +2,7 @@ from PyQt5 import uic
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-Form, Window = uic.loadUiType('mydesign.ui')
+Form, Window = uic.loadUiType('ui/mydesign.ui')
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
