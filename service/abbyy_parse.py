@@ -52,6 +52,9 @@ def get_duplicates(check_these, check_here) -> list:
 
 
 def get_duplicate(check_word, check_here):
+    if check_word == "":
+        check_word = "Enter word"
+        return check_word
     if check_word in check_here:
         translated = check_here.get(check_word)
         return translated
