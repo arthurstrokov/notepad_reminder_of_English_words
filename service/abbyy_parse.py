@@ -1,6 +1,6 @@
 import requests
 import json
-from service.file_handling import load_data_from_json, save_data_to_json
+from file_handling import load_data_from_json, save_data_to_json
 import concurrent.futures
 from typing import Dict
 import time
@@ -51,9 +51,17 @@ def get_duplicates(check_these, check_here) -> list:
     return not_translated_words
 
 
-def get_translation_with_concurrent_futures(word_translation_from_api, not_translated_words: list, translated_words: dict, translated_words_json_file_name) -> dict:
+def get_translation_with_concurrent_futures(
+        word_translation_from_api,
+        not_translated_words: list,
+        translated_words: dict,
+        translated_words_json_file_name) -> dict:
     with concurrent.futures.ProcessPoolExecutor() as executor:
-        for en, ru in zip(not_translated_words, executor.map(word_translation_from_api, not_translated_words)):
+        for en, ru in zip(
+                not_translated_words,
+                executor.map(
+                    word_translation_from_api,
+                    not_translated_words)):
             print(en, ru)
             if ru == 'Incoming request rate exceeded for 50000 chars per day pricing tier':
                 break
@@ -63,9 +71,13 @@ def get_translation_with_concurrent_futures(word_translation_from_api, not_trans
     return translated_words
 
 
-def get_translation_with_concurrent(word_translation_from_api, not_translated_words: list) -> dict:
+def get_translation_with_concurrent(
+        word_translation_from_api,
+        not_translated_words: list) -> dict:
     with concurrent.futures.ProcessPoolExecutor() as executor:
-        for en, ru in zip(not_translated_words, executor.map(word_translation_from_api, not_translated_words)):
+        for en, ru in zip(
+                not_translated_words,
+                executor.map(word_translation_from_api, not_translated_words)):
             print(en, ru)
             if ru == 'Incoming request rate exceeded for 50000 chars per day pricing tier':
                 break

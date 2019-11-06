@@ -28,7 +28,10 @@ async def get_a_word_translation_from_abbyy_api(key: str, session, token) -> str
         'srcLang': '1033',
         'dstLang': '1049'
     }
-    async with session.get(URL_TRANSLATE, headers=headers_translate, params=params) as req:
+    async with session.get(
+            URL_TRANSLATE, 
+            headers=headers_translate, 
+            params=params) as req:
         res = await req.json()
         try:
             value = res['Translation']['Translation']
