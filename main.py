@@ -5,6 +5,7 @@ from ui.mydesign import Ui_MainWindow
 from service.abbyy_parse import *
 from service.file_handling import *
 
+
 class MyWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super(MyWindow, self).__init__()
@@ -20,18 +21,19 @@ class MyWindow(QtWidgets.QMainWindow):
         word = show_random_word_from_file_json(file_name)
         self.ui.label.setText(word)
 
-
     def btnClicked_2(self):
-        file_name = 'data/unknown_words_yet.json'
+        file_name = 'data/unknown_words_yet_en_ru.json'
         word = show_random_word_from_file_json(file_name)
         self.ui.label_2.setText(word)
 
-
     def btnClicked_3(self):
+        check_here = load_data_from_json(
+            'data/unknown_words_yet_en_ru.json')
         word = self.ui.lineEdit.text()
-        translated_word = get_a_word_translation_from_abbyy_api(word)
+        translated_word = get_duplicate(word, check_here)
         self.ui.label_4.setText(translated_word)
-        
+        save_data_to_json('data/unknown_words_yet_en_ru.json', check_here)
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])

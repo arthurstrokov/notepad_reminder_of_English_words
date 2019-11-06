@@ -51,6 +51,16 @@ def get_duplicates(check_these, check_here) -> list:
     return not_translated_words
 
 
+def get_duplicate(check_word, check_here):
+    if check_word in check_here:
+        translated = check_here.get(check_word)
+        return translated
+    else:
+        translated_word = get_a_word_translation_from_abbyy_api(check_word)
+        check_here[check_word] = translated_word
+    return translated_word
+
+
 def get_translation_with_concurrent_futures(
         word_translation_from_api,
         not_translated_words: list,
@@ -102,16 +112,16 @@ if __name__ == "__main__":
     # print(str(len(not_translated_words)) + ' words not translated yet')
 
     # get_translation_with_concurrent_futures(
-    #     get_a_word_translation_from_abbyy_api, 
-    #     not_translated_words, 
-    #     google_10k_english_russian_keys, 
+    #     get_a_word_translation_from_abbyy_api,
+    #     not_translated_words,
+    #     google_10k_english_russian_keys,
     #     'data/google_10k_english_russian.json')
 
     # with concurrent.futures.ProcessPoolExecutor() as executor:
     #     for en, ru in zip(
-    #             not_translated_words, 
+    #             not_translated_words,
     #             executor.map(
-    #                 get_a_word_translation_from_abbyy_api, 
+    #                 get_a_word_translation_from_abbyy_api,
     #                 not_translated_words)):
     #         print(en, ru)
     #         if ru == 'Incoming request rate exceeded for 50000 chars per day pricing tier':
