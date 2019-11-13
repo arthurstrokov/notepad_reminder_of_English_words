@@ -3,7 +3,7 @@ import PyQt5
 from PyQt5 import QtWidgets
 from ui.mydesign import Ui_MainWindow
 from service.abbyy_parse import get_duplicate
-from service.file_handling import load_data_from_json, save_data_to_json, show_random_word_from_file_json
+from service.file_handling import load_data, save_data, show_random_word
 
 
 class MyWindow(QtWidgets.QMainWindow):
@@ -17,22 +17,22 @@ class MyWindow(QtWidgets.QMainWindow):
         self.ui.pushButton_3.clicked.connect(self.btnClicked_3)
 
     def btnClicked(self):
-        file_name = 'data/two_thousand_most_frequently_used_words_of_the_english_language.json'
-        word = show_random_word_from_file_json(file_name)
+        file_name = 'data/two_thousand_most_frequently_used_words.json'
+        word = show_random_word(file_name)
         self.ui.label.setText(word)
 
     def btnClicked_2(self):
         file_name = 'data/unknown_words_yet_en_ru.json'
-        word = show_random_word_from_file_json(file_name)
+        word = show_random_word(file_name)
         self.ui.label_2.setText(word)
 
     def btnClicked_3(self):
-        check_here = load_data_from_json(
+        check_here = load_data(
             'data/unknown_words_yet_en_ru.json')
         word = self.ui.lineEdit.text()
         translated_word = get_duplicate(word, check_here)
         self.ui.label_4.setText(translated_word)
-        save_data_to_json('data/unknown_words_yet_en_ru.json', check_here)
+        save_data('data/unknown_words_yet_en_ru.json', check_here)
 
 
 if __name__ == "__main__":
