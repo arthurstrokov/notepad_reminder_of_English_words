@@ -1,0 +1,8 @@
+version: '2.1'
+
+services:
+  notepad_reminder_of_english_words:
+    image: notepad_reminder_of_english_words
+    build: .
+    ports:
+      - 3000:3000

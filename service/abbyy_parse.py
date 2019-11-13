@@ -32,7 +32,7 @@ def get_a_word_translation_from_abbyy_api(key: str) -> str:
             value = res['Translation']['Translation']
             return value
         except TypeError:
-            if res == 'Incoming request rate exceeded for 50000 chars per day pricing tier':
+            if res == 'Incoming request rate exceeded for 50000 chars per day':
                 return res
             else:
                 return None
@@ -79,7 +79,7 @@ def get_translation_with_concurrent_futures(
                     word_translation_from_api,
                     not_translated_words)):
             print(en, ru)
-            if ru == 'Incoming request rate exceeded for 50000 chars per day pricing tier':
+            if ru == 'Incoming request rate exceeded for 50000 chars per day':
                 break
             translated_words[en] = ru
             save_data_to_json(
@@ -95,7 +95,7 @@ def get_translation_with_concurrent(
                 not_translated_words,
                 executor.map(word_translation_from_api, not_translated_words)):
             print(en, ru)
-            if ru == 'Incoming request rate exceeded for 50000 chars per day pricing tier':
+            if ru == 'Incoming request rate exceeded for 50000 chars per day':
                 break
 
 
@@ -103,7 +103,7 @@ if __name__ == "__main__":
 
     start_time = time.time()
 
-    not_translated_words = load_data_from_json(
+    not_translated_words = load_data(
         'data/not_translated_words.json')
     get_translation_with_concurrent(
         get_a_word_translation_from_abbyy_api, not_translated_words)
@@ -111,8 +111,8 @@ if __name__ == "__main__":
     end_time = time.time()
     print(end_time - start_time)
 
-    # google_10k_english_keys: Dict[str, str] = load_data_from_json('data/google_10k_english.json')
-    # google_10k_english_russian_keys: Dict[str, str] = load_data_from_json('data/google_10k_english_russian.json')
+    # google_10k_english_keys: Dict[str, str] = load_data('data/google_10k_english.json')
+    # google_10k_english_russian_keys: Dict[str, str] = load_data('data/google_10k_english_russian.json')
 
     # not_translated_words = get_duplicates(google_10k_english_keys, google_10k_english_russian_keys)
     # print(str(len(not_translated_words)) + ' words not translated yet')
@@ -130,7 +130,7 @@ if __name__ == "__main__":
     #                 get_a_word_translation_from_abbyy_api,
     #                 not_translated_words)):
     #         print(en, ru)
-    #         if ru == 'Incoming request rate exceeded for 50000 chars per day pricing tier':
+    #         if ru == 'Incoming request rate exceeded for 50000 chars per day':
     #             break
     #         google_10k_english_russian_keys[en] = ru
     #         save_data_to_json('data/google_10k_english_russian.json',
@@ -141,7 +141,7 @@ if __name__ == "__main__":
     # translated_words_test = {}
     # for en in not_translated_words_test:
     #     ru = get_a_word_translation_from_abbyy_api(en)
-    #     if ru == 'Incoming request rate exceeded for 50000 chars per day pricing tier':
+    #     if ru == 'Incoming request rate exceeded for 50000 chars per day':
     #         break
     #     translated_words_test[en] = ru
     #     save_data_to_json('data/translated_words_test.json',
