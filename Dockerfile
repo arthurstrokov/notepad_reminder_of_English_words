@@ -12,7 +12,7 @@ LABEL Name=notepad_reminder_of_english_words Version=0.0.1
 EXPOSE 3000
 
 WORKDIR /app
-ADD . /app
+COPY . /app
 RUN apk add py3-qt5
 # Using pip:
 RUN python3 -m pip install -r requirements.txt
