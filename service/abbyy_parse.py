@@ -7,8 +7,7 @@ from typing import Dict
 # https://developers.lingvolive.com/ru-ru
 URL_AUTH = 'https://developers.lingvolive.com/api/v1.1/authenticate'
 URL_TRANSLATE = 'https://developers.lingvolive.com/api/v1/Minicard'
-KEY = 'YjlkMjk0YTgtZGI3NS00NGE0LWJlNDUtYjkzMDU5Mzc5YTNkO\
-        jE2ODE3ZGM4OTI3OTQ4YWE5ZTBlYmJmYTZmMmY5YjZh'
+KEY = 'YjlkMjk0YTgtZGI3NS00NGE0LWJlNDUtYjkzMDU5Mzc5YTNkOjE2ODE3ZGM4OTI3OTQ4YWE5ZTBlYmJmYTZmMmY5YjZh'  # TODO
 
 
 def get_word_translation_from_abbyy_api(key: str) -> str:
@@ -97,6 +96,15 @@ def get_translation_with_concurrent(
             print(en, ru)
             if ru == 'Incoming request rate exceeded for 50000 chars per day':
                 break
+    return
+
+
+class TypeError(Exception):
+    def __init__(self, value):
+        self.value = value
+
+    def __str__(self):
+        return self.value
 
 
 if __name__ == "__main__":

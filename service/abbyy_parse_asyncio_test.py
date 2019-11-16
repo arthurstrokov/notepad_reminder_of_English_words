@@ -53,6 +53,14 @@ async def get_a_word_translation(not_translated_words):
         await asyncio.wait(tasks)
 
 
+class TypeError(Exception):
+    def __init__(self, value):
+        self.value = value
+
+    def __str__(self):
+        return self.value
+
+
 if __name__ == "__main__":
     not_translated_words = load_data(
         'data/not_translated_words.json')
