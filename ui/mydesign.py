@@ -7,7 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
 
 
 class Ui_MainWindow(object):
@@ -57,7 +57,8 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.pushButton.setText(_translate("MainWindow", "PushButton"))
         self.label.setText(_translate(
-            "MainWindow", " Two thousand most frequently used words of the english language"))
+            "MainWindow",
+            "Two thousand most frequently used words of the english language"))
         self.pushButton_2.setText(_translate("MainWindow", "PushButton"))
         self.label_2.setText(_translate("MainWindow", "unknown words yet"))
         self.label_3.setText(_translate(

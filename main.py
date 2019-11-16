@@ -1,5 +1,4 @@
 import sys
-import PyQt5
 from PyQt5 import QtWidgets
 from ui.mydesign import Ui_MainWindow
 from service.abbyy_parse import get_duplicate

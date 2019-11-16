@@ -3,13 +3,16 @@ import json
 from service.file_handling import load_data, save_data
 import concurrent.futures
 from typing import Dict
-import time
+from locale import str
+import logging
+logger = logging.getLogger(__name__)
 
 
 # https://developers.lingvolive.com/ru-ru
 URL_AUTH = 'https://developers.lingvolive.com/api/v1.1/authenticate'
 URL_TRANSLATE = 'https://developers.lingvolive.com/api/v1/Minicard'
-KEY = 'YjlkMjk0YTgtZGI3NS00NGE0LWJlNDUtYjkzMDU5Mzc5YTNkOjE2ODE3ZGM4OTI3OTQ4YWE5ZTBlYmJmYTZmMmY5YjZh'
+KEY = 'YjlkMjk0YTgtZGI3NS00NGE0LWJlNDUtYjkzMDU5Mzc5YTNkO\
+        jE2ODE3ZGM4OTI3OTQ4YWE5ZTBlYmJmYTZmMmY5YjZh'
 
 
 def get_a_word_translation_from_abbyy_api(key: str) -> str:
@@ -37,7 +40,7 @@ def get_a_word_translation_from_abbyy_api(key: str) -> str:
             else:
                 return None
     else:
-        print('Error!' + str(auth.status_code))
+        logger('Error!' + str(auth.status_code))
     return res
 
 
@@ -78,11 +81,11 @@ def get_translation_with_concurrent_futures(
                 executor.map(
                     word_translation_from_api,
                     not_translated_words)):
-            print(en, ru)
+            logger(en, ru)
             if ru == 'Incoming request rate exceeded for 50000 chars per day':
                 break
             translated_words[en] = ru
-            save_data_to_json(
+            save_data(
                 translated_words_json_file_name, translated_words)
     return translated_words
 
@@ -94,55 +97,17 @@ def get_translation_with_concurrent(
         for en, ru in zip(
                 not_translated_words,
                 executor.map(word_translation_from_api, not_translated_words)):
-            print(en, ru)
+            logger(en, ru)
             if ru == 'Incoming request rate exceeded for 50000 chars per day':
                 break
 
 
+class TypeError(Exception):
+    pass
+
+
 if __name__ == "__main__":
-
-    start_time = time.time()
-
     not_translated_words = load_data(
         'data/not_translated_words.json')
     get_translation_with_concurrent(
         get_a_word_translation_from_abbyy_api, not_translated_words)
-
-    end_time = time.time()
-    print(end_time - start_time)
-
-    # google_10k_english_keys: Dict[str, str] = load_data('data/google_10k_english.json')
-    # google_10k_english_russian_keys: Dict[str, str] = load_data('data/google_10k_english_russian.json')
-
-    # not_translated_words = get_duplicates(google_10k_english_keys, google_10k_english_russian_keys)
-    # print(str(len(not_translated_words)) + ' words not translated yet')
-
-    # get_translation_with_concurrent_futures(
-    #     get_a_word_translation_from_abbyy_api,
-    #     not_translated_words,
-    #     google_10k_english_russian_keys,
-    #     'data/google_10k_english_russian.json')
-
-    # with concurrent.futures.ProcessPoolExecutor() as executor:
-    #     for en, ru in zip(
-    #             not_translated_words,
-    #             executor.map(
-    #                 get_a_word_translation_from_abbyy_api,
-    #                 not_translated_words)):
-    #         print(en, ru)
-    #         if ru == 'Incoming request rate exceeded for 50000 chars per day':
-    #             break
-    #         google_10k_english_russian_keys[en] = ru
-    #         save_data_to_json('data/google_10k_english_russian.json',
-    #                           google_10k_english_russian_keys)
-    # https://docs.python.org/3/library/concurrent.futures.html#module-concurrent.futures
-
-    # not_translated_words_test = ['victim']
-    # translated_words_test = {}
-    # for en in not_translated_words_test:
-    #     ru = get_a_word_translation_from_abbyy_api(en)
-    #     if ru == 'Incoming request rate exceeded for 50000 chars per day':
-    #         break
-    #     translated_words_test[en] = ru
-    #     save_data_to_json('data/translated_words_test.json',
-    #                       translated_words_test)
