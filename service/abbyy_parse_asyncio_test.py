@@ -45,10 +45,6 @@ async def get_word_translation_from_abbyy_api(key: str, session, token) -> str:
     return value
 
 
-class TypeError(Exception):
-    pass
-
-
 async def get_a_word_translation(not_translated_words):
     token = get_token()
     async with aiohttp.ClientSession() as session:

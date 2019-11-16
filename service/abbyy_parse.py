@@ -99,10 +99,6 @@ def get_translation_with_concurrent(
                 break
 
 
-class TypeError(Exception):
-    pass
-
-
 if __name__ == "__main__":
     not_translated_words = load_data(
         'data/not_translated_words.json')
