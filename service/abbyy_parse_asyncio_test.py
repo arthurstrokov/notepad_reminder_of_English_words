@@ -3,9 +3,7 @@ import json
 from typing import Dict
 import asyncio
 import aiohttp
-from .file_handling import load_data
-import logging
-logger = logging.getLogger(__name__)
+from file_handling import load_data
 
 
 URL_AUTH = 'https://developers.lingvolive.com/api/v1.1/authenticate'
@@ -37,7 +35,7 @@ async def get_word_translation_from_abbyy_api(key: str, session, token) -> str:
         res = await req.json()
         try:
             value = res['Translation']['Translation']
-            logger(key + ' ' + value)
+            print(key + ' ' + value)
             return value
         except TypeError:
             if res == 'Incoming request rate exceeded \

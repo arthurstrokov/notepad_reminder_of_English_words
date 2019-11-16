@@ -1,10 +1,8 @@
 import requests
 import json
-from service.file_handling import load_data, save_data
+from file_handling import load_data, save_data
 import concurrent.futures
 from typing import Dict
-import logging
-logger = logging.getLogger(__name__)
 
 
 # https://developers.lingvolive.com/ru-ru
@@ -39,7 +37,7 @@ def get_a_word_translation_from_abbyy_api(key: str) -> str:
             else:
                 return None
     else:
-        logger('Error!' + str(auth.status_code))
+        print('Error!' + str(auth.status_code))
     return res
 
 
@@ -80,7 +78,7 @@ def get_translation_with_concurrent_futures(
                 executor.map(
                     word_translation_from_api,
                     not_translated_words)):
-            logger(en, ru)
+            print(en, ru)
             if ru == 'Incoming request rate exceeded for 50000 chars per day':
                 break
             translated_words[en] = ru
@@ -96,7 +94,7 @@ def get_translation_with_concurrent(
         for en, ru in zip(
                 not_translated_words,
                 executor.map(word_translation_from_api, not_translated_words)):
-            logger(en, ru)
+            print(en, ru)
             if ru == 'Incoming request rate exceeded for 50000 chars per day':
                 break
 
