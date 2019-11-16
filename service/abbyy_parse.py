@@ -100,11 +100,7 @@ def get_translation_with_concurrent(
 
 
 class TypeError(Exception):
-    def __init__(self, value):
-        self.value = value
-
-    def __str__(self):
-        return self.value
+    pass
 
 
 if __name__ == "__main__":

@@ -7,8 +7,7 @@ from service.file_handling import load_data
 
 URL_AUTH = 'https://developers.lingvolive.com/api/v1.1/authenticate'
 URL_TRANSLATE = 'https://developers.lingvolive.com/api/v1/Minicard'
-KEY = 'YjlkMjk0YTgtZGI3NS00NGE0LWJlNDUtYjkzMDU5Mzc5YTN\
-        kOjE2ODE3ZGM4OTI3OTQ4YWE5ZTBlYmJmYTZmMmY5YjZh'
+KEY = 'YjlkMjk0YTgtZGI3NS00NGE0LWJlNDUtYjkzMDU5Mzc5YTNkOjE2ODE3ZGM4OTI3OTQ4YWE5ZTBlYmJmYTZmMmY5YjZh'  # TODO
 
 
 def get_token():
@@ -54,11 +53,7 @@ async def get_a_word_translation(not_translated_words):
 
 
 class TypeError(Exception):
-    def __init__(self, value):
-        self.value = value
-
-    def __str__(self):
-        return self.value
+    pass
 
 
 if __name__ == "__main__":
