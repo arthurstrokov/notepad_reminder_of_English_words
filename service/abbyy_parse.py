@@ -1,6 +1,5 @@
 import requests
-import json
-from file_handling import load_data, save_data
+from service.file_handling import load_data, save_data
 import concurrent.futures
 from typing import Dict
 
@@ -12,7 +11,7 @@ KEY = 'YjlkMjk0YTgtZGI3NS00NGE0LWJlNDUtYjkzMDU5Mzc5YTNkO\
         jE2ODE3ZGM4OTI3OTQ4YWE5ZTBlYmJmYTZmMmY5YjZh'
 
 
-def get_a_word_translation_from_abbyy_api(key: str) -> str:
+def get_word_translation_from_abbyy_api(key: str) -> str:
     headers_auth = {'Authorization': 'Basic ' + KEY}
     auth = requests.post(URL_AUTH, headers=headers_auth)
     if auth.status_code == 200:
@@ -37,7 +36,8 @@ def get_a_word_translation_from_abbyy_api(key: str) -> str:
             else:
                 return None
     else:
-        print('Error!' + str(auth.status_code))
+        error_message = ('Error! -> ' + str(auth.status_code))
+        return error_message
     return res
 
 
@@ -59,7 +59,7 @@ def get_duplicate(check_word, check_here):
         translated = check_here.get(check_word)
         return translated
     else:
-        translated_word = get_a_word_translation_from_abbyy_api(check_word)
+        translated_word = get_word_translation_from_abbyy_api(check_word)
         if translated_word is None:
             check_here[check_word] = "None"
         else:
@@ -107,4 +107,4 @@ if __name__ == "__main__":
     not_translated_words = load_data(
         'data/not_translated_words.json')
     get_translation_with_concurrent(
-        get_a_word_translation_from_abbyy_api, not_translated_words)
+        get_word_translation_from_abbyy_api, not_translated_words)
