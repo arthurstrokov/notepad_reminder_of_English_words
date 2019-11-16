@@ -3,7 +3,6 @@ import json
 from service.file_handling import load_data, save_data
 import concurrent.futures
 from typing import Dict
-from locale import str
 import logging
 logger = logging.getLogger(__name__)
 
