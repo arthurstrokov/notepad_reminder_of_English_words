@@ -1,8 +1,9 @@
-import requests
-from service.file_handling import load_data, save_data
 import concurrent.futures
 from typing import Dict
 
+import requests
+
+from service.file_handling import load_data, save_data
 
 # https://developers.lingvolive.com/ru-ru
 URL_AUTH = 'https://developers.lingvolive.com/api/v1.1/authenticate'
@@ -27,10 +28,14 @@ def get_word_translation_from_abbyy_api(key: str) -> str:
             URL_TRANSLATE, headers=headers_translate, params=params)
         res = req.json()
         try:
-            value = res['Translation']['Translation']
-            return value
+            if res == 'No translations found for text \\"{}\\" among available dictionaries'.format(key):
+                translate_error_message = ('Error! -> translate not found')
+                return translate_error_message
+            else:
+                value = res['Translation']['Translation']
+                return value
         except TypeError:
-            if res == 'Incoming request rate exceeded for 50000 chars per day':
+            if res == 'Incoming request rate exceeded for 50000 chars per day pricing tier':
                 return res
             else:
                 return None
@@ -61,6 +66,8 @@ def get_duplicate(check_word, check_here):
         translated_word = get_word_translation_from_abbyy_api(check_word)
         if translated_word is None:
             check_here[check_word] = "None"
+        if translated_word == "Error! -> translate not found":
+            return translated_word
         else:
             check_here[check_word] = translated_word
     return translated_word
@@ -78,7 +85,8 @@ def get_translation_with_concurrent_futures(
                     word_translation_from_api,
                     not_translated_words)):
             print(en, ru)
-            if ru == 'Incoming request rate exceeded for 50000 chars per day':
+            if ru == 'Incoming request rate exceeded \
+                        for 50000 chars per day pricing tier':
                 break
             translated_words[en] = ru
             save_data(
@@ -94,7 +102,8 @@ def get_translation_with_concurrent(
                 not_translated_words,
                 executor.map(word_translation_from_api, not_translated_words)):
             print(en, ru)
-            if ru == 'Incoming request rate exceeded for 50000 chars per day':
+            if ru == 'Incoming request rate exceeded \
+                        for 50000 chars per day pricing tier':
                 break
     return
 
@@ -108,3 +117,4 @@ if __name__ == "__main__":
         'data/not_translated_words.json')
     get_translation_with_concurrent(
         get_word_translation_from_abbyy_api, not_translated_words)
+    get_word_translation_from_abbyy_api("rewgwwwwee")

@@ -1,8 +1,9 @@
-import sys
+
 from PyQt5 import QtWidgets
-from ui.mydesign import Ui_MainWindow
+
 from service.abbyy_parse import get_duplicate
 from service.file_handling import load_data, save_data, show_random_word
+from ui.mydesign import Ui_MainWindow
 
 
 class MyWindow(QtWidgets.QMainWindow):
@@ -21,21 +22,21 @@ class MyWindow(QtWidgets.QMainWindow):
         self.ui.label.setText(word)
 
     def btnClicked_2(self):
-        file_name = 'data/unknown_words_yet_en_ru.json'
+        file_name = 'data/unknown_words_en_ru.json'
         word = show_random_word(file_name)
         self.ui.label_2.setText(word)
 
     def btnClicked_3(self):
         check_here = load_data(
-            'data/unknown_words_yet_en_ru.json')
+            'data/unknown_words_en_ru.json')
         word = self.ui.lineEdit.text()
         translated_word = get_duplicate(word, check_here)
         self.ui.label_4.setText(translated_word)
-        save_data('data/unknown_words_yet_en_ru.json', check_here)
+        save_data('data/unknown_words_en_ru.json', check_here)
 
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
     application = MyWindow()
     application.show()
-    sys.exit(app.exec())
+    app.exec_()

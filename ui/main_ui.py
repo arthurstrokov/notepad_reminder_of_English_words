@@ -1,6 +1,4 @@
-from PyQt5 import uic
-from PyQt5 import QtWidgets
-
+from PyQt5 import QtWidgets, uic
 
 Form, Window = uic.loadUiType('ui/mydesign.ui')
 
