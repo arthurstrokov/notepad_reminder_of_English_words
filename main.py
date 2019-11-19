@@ -1,4 +1,3 @@
-
 from PyQt5 import QtWidgets
 
 from service.abbyy_parse import get_duplicate

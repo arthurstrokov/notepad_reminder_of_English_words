@@ -1,9 +1,9 @@
 import asyncio
 from typing import Dict
 
+import aiohttp
 import requests
 
-import aiohttp
 from service.file_handling import load_data
 
 URL_AUTH = 'https://developers.lingvolive.com/api/v1.1/authenticate'
